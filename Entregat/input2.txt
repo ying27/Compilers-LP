@@ -1,0 +1,41 @@
+world 5 5
+robot 2 3 5 right
+walls [1 2 right, 1 2 up]
+beepers 1 3 2
+walls [1 2 down]
+beepers 4 4 1
+
+define turnright {
+  turnleft;
+  turnleft;
+  turnleft;
+}
+
+define t1 {
+  turnright;
+  if isClear and anyBeepersInBag {
+    move;
+    putbeeper;
+  }
+}
+
+begin
+turnleft;
+iterate 1 {
+  if foundBeeper { pickbeeper; }
+  if not foundBeeper {
+    if isClear {
+      move;
+    }
+    turnleft;
+  }
+  if not foundBeeper and isClear or anyBeepersInBag {
+    turnleft;
+    turnright;
+  }
+}
+turnright;
+t1;
+if foundBeeper { pickbeeper; }
+turnoff;
+end
